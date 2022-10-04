@@ -49,10 +49,10 @@ Connection: Keep-Alive
 X-Forwarded-For: 127.0.0.1
 ```
 
-> That endpoint doesn't exist on this site, don't try and bypass it...
+> That endpoint doesn't exist on this site this is not a lab.
+{: .prompt-warning}
 
 The idea is that the webserver will parse the `X-Forwarded-For` header and assume that the request has been forwarded to it on behalf of `127.0.0.1` / `localhost` and let you access the "Blocked" `/login` endpoint. 
-
 
 ## Automation Block
 

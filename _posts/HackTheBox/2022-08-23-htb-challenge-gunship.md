@@ -70,12 +70,13 @@ The main files of interest are the `main.js` and `index.js` files, we can also c
 		"flat": "5.0.0",
 		"pug": "^3.0.0"
 	}
----SNIP
+---SNIP---
 ```
 
-`pug` is of interest and we can find some really interesting information with a Google search `npm pug exploit`, but there doesn't seem to be much in the way of POC for the RCE vulnerabilities that pop up, so we'll just put a pin in that and move on to reviewing the rest of the source code.
+The `pug` module/library is of interest and we can find some really interesting information with a Google search `npm pug exploit`, but there doesn't seem to be much in the way of POC for the RCE vulnerabilities that pop up, so we'll just put a pin in that and move on to reviewing the rest of the source code.
 
 > High speed, low drag - U.S. Army Motto
+{: .prompt-tip }
 
 After reviewing the source code we can discount `challenge/index.js`, it's mostly just setting up some basic routes and the default 404 error message, `challenge/static/js/main.js` doesn't really have anything of note (from a vulnerability standpoint) and is just setting up an endpoint called `/api/submit` which accepts `POST` requests populated by a form element, which we can safely assume is the input form on the website.
 
@@ -127,6 +128,7 @@ If you recall back to earlier, we reviewed the `package.json` and saw that `pug`
 As the vulnerabilities we saw earlier suggested, there is an issue in the way that templates are managed in NodeJS and subsequently in the compiler `pug` uses parses values, you can read more about it on the linked post, but it effectively boils down to the following quote, and the JSON blob above:
 
 > Any AST can be inserted in the function by making it insert during the Parser or Compiler process.
+{: .prompt-info }
 
 ## Testing
 
@@ -280,6 +282,7 @@ Don't reinvent the whell, just do something simple.
 The above payload makes a copy of `flag*` (it's `flag*` because the name is random, but there is only one, which can be observed in the Docker image) and creates a new text file in `static/` called `test.txt` which we can then just curl for or browse to (dealers choice) to retreive our flag.
 
 > The Bind Shell method probably works btw, I just couldn't be bothered testing it on the live instance but in theory it should work fine (in theory).
+{: .prompt-info }
 
 And after all of that you get a flag, which I'm not going to print because that would mean you could just say you've done it and that's no fun.
 
