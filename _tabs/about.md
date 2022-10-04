@@ -4,14 +4,15 @@ icon: fas fa-info-circle
 order: 4
 ---
 
-> Add Markdown syntax content to file `_tabs/about.md`{: .filepath } and it will show up on this page.
+> This is an example of a Tip.
 {: .prompt-tip }
 
-> This is a test of the "Danger" block 
-{: .prompt-danger }
+> This is an example of an Info block.
+{: .prompt-info }
 
-> This is a test of the "Warning" block 
+> This is an example of a Warning block.
 {: .prompt-warning }
 
-> This is a test of the "Info" block 
-{: .prompt-info }
+> This is an example of a Danger block.
+{: .prompt-danger }
+
