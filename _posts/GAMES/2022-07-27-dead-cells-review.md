@@ -43,12 +43,14 @@ Dead Cells is rendered in Pixel Art.
 
 And it is breathtakingly beautiful at times.
 
-![The Graphics](dead_cells_graphics.jpg)
+![The Graphics](./dead_cells_graphics.jpg)
 
-![Still Pretty](dead_cells_still_pretty.jpg)
+![Still Pretty](./dead_cells_still_pretty.jpg)
 
 ## The Story
 
 There is a story in Dead Cells, though you can very much choose to ignore it.
 
-Dead Cells tells it's story through it's environments, there are clues and notes left from the people that came before you and if you're interested you can piece together the story of how the island was ripped apart by disease
+Dead Cells tells it's story through it's environments, there are clues and notes left from the people that came before you and if you're interested you can piece together the story of how the island was ripped apart by disease.
+
+
