@@ -21,9 +21,9 @@ timezone:
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Chirpy                          # the main title
+title: BullSec Security                          # the main title
 
-tagline: A text-focused Jekyll theme   # it will display as the sub-title
+tagline: Hacking Articles and Blogs for your Reading Pleasure   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   A minimal, responsive, and powerful Jekyll theme for presenting professional writing.
@@ -32,10 +32,10 @@ description: >-                        # used by seo meta and the atom feed
 url: ''
 
 github:
-  username: MrBullsec             # change to your github username
+  username: bull-sec          # change to your github username
 
 twitter:
-  username: twitter_username            # change to your twitter username
+  username: bullsecsecure            # change to your twitter username
 
 social:
   # Change to your full name.
