@@ -4,8 +4,7 @@ title: "Projects: Building this site"
 date: 2022-08-09 18:37 +0100
 tags: webapps github automation jekyll
 categories: [Projects]
-pin: true
-published: true
+published: false
 ---
 
 Building and publishing this site has been something I've been meaning to get around to for a long time and I think I've finally got something I'm happy with in all aspects.
