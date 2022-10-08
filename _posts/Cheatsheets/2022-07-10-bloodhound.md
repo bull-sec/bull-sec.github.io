@@ -54,4 +54,4 @@ BloodHound data doesn't grow on trees, we're going to have to use one of the kin
 
 My preferred choice is the "SharpHound.ps1" script as I can load that in remotely using an IEX download cradle but it's dealers choice, both usually work a treat although you're going to want a fairly stable TTY in order to run them.
 
-Another good choice is the good old SMB 
+Another good choice is the good old impacket-smbserver.
