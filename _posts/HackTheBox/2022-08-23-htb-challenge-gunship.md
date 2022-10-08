@@ -5,6 +5,7 @@ date: 2022-08-23 18:07 +0100
 tags: hackthebox htb nodejs hacking webapps codereview
 categories: [Pentesting, HackTheBox]
 published: true
+pinned: true
 ---
 
 Gunship is a nice fun web based challenge, we do a bit of digging and find some clues that lead us to an article that contains an exploit for one of the technologies used in the application, and then it's a case of triggering the vulnerability locally, and then figuring out what the payload needs to be for the live environment.
