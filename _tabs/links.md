@@ -4,6 +4,8 @@ icon: fas fa-link
 order: 7
 ---
 
+A collection of links to useful or just plain awesome sites I either use regularly, or highly endorse.
+
 - [https://github.com/bull-sec/](https://github.com/bull-sec/)
 - [https://book.hacktricks.xyz](https://book.hacktricks.xyz)
 - [0xdf Hacks Stuff](https://0xdf.gitlab.io/)
