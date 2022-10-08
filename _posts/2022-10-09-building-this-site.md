@@ -5,7 +5,7 @@ date: 2021-10-09 18:37 +0100
 tags: webapps github automation jekyll
 categories: [Projects]
 pin: true
-published: false
+published: true
 ---
 
 Building and publishing this site has been something I've been meaning to get around to for a long time and I think I've finally got something I'm happy with in all aspects.
