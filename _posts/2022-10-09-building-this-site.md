@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Projects: Building this site"
-date: 2022-10-09 18:37 +0100
+date: 2022-10-08 18:37 +0100
 tags: webapps github automation jekyll
 categories: [Projects]
 pin: true
