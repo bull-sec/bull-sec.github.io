@@ -1,0 +1,30 @@
+{
+  "workbench.colorTheme": "Bearded Theme Surprising Watermelon",
+  "editor.minimap.enabled": false,
+  "editor.wrappingIndent": "indent",
+  "editor.overviewRulerBorder": false,
+  "editor.lineHeight": 24,
+  "[markdown]": {
+    "editor.quickSuggestions": {
+      "comments": "on",
+      "strings": "on",
+      "other": "on"
+    }
+  },
+  "files.defaultLanguage": "markdown",
+  "files.exclude": {
+    "**/node_modules": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules": true
+  },
+  "git.enableSmartCommit": true,
+  "git.postCommitCommand": "sync",
+  "markdown.preview.breaks": true,
+  "pasteImage.path": "${projectRoot}/assets/img",
+  "pasteImage.basePath": "${projectRoot}/assets",
+  "pasteImage.forceUnixStyleSeparator": true,
+  "pasteImage.prefix": "/assets/",
+  "pasteImage.showFilePathConfirmInputBox": true,
+  "window.autoDetectColorScheme": true,
+}
