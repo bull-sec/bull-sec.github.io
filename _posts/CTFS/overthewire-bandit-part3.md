@@ -1,41 +1,49 @@
-#OverTheWire - Bandit - Levels 20-Finish
-###Wargame Walkthrough by HybridGorilla
+---
+layout: post
+title: "CTF: Bandit - Part 1"
+date: 2022-07-30 23:32 +0100
+tags: pentesting linux kali overthewire
+categories: [CTF, OverTheWire]
+published: false
+---
 
+## OverTheWire - Bandit - Levels 20-Finish
 
-##Bandit 20
+## Bandit 20
+
 Ahh the difficulty curve is back, after the last one I thought they were starting to go easy on us. Not so with this one. We're been given the hint that we probably need to use `screen` or `tmux` to complete this challenge. `screen` and `tmux` are terminal multiplexers, which is a fancy way of saying you can have multiple terminals open on the same connection. I'll be using `screen` for the purposes of this walkthrough, as I'm not familiar with `tmux`.
 
 Some basic `screen` commands:
 
-```
-Ctrl + A, C 		- Create a new window
-Ctrl + A , (n) 		- Move between active windows, where (n) is the number ID of the window (0-99)
-Ctrl + C 			- Exit
+```bash
+Ctrl + A, C     - Create a new window
+Ctrl + A , (n)  - Move between active windows, where (n) is the number ID of the window (0-99)
+Ctrl + C        - Exit
 ```
 
-[This guide](https://www.rackaid.com/blog/linux-screen-tutorial-and-how-to/) also has some good tips. And the `man` pages are pretty detailed, so you should be able to pick it up pretty quickly (if you've gotten this far, what's one more tool?) 
+[This guide](https://www.rackaid.com/blog/linux-screen-tutorial-and-how-to/) also has some good tips. And the `man` pages are pretty detailed, so you should be able to pick it up pretty quickly (if you've gotten this far, what's one more tool?)
 
 Disaster! Unfortunately for me, `screen` didn't seem to work (it was moaning about file permissions)
 
 That meant learning `tmux` on the fly... Luckily, it turns out that `tmux` is pretty dope, and not too dissimilar from `screen`.
 
-```
-Ctrl + C			- Create a new Terminal 
-Ctrl + (n)			- Move to Terminal (n)
+```bash
+Ctrl + C    - Create a new Terminal 
+Ctrl + (n)  - Move to Terminal (n)
 ```
 
 (To quit `tmux` just type `exit` into your terminal windows (however many you spawned))
 
-So, what do we actually have to do here? 
+So, what do we actually have to do here?
 
 Actually it's pretty simple. Fire up at least one more Terminal window (you're going to need it) and run the SUID binary that lurks in the home directory. Check out how it works.
 
-```
+```bash
 Usage: ./suconnect <portnumber>
 This program will connect to the given port on localhost using TCP. If it receives the correct password from the other side, the next password is transmitted back.
 ```
 
-Awesome, so we give it a port number, then we give it a password, and it poops out the password for the next level. Nice. 
+Awesome, so we give it a port number, then we give it a password, and it poops out the password for the next level. Nice.
 
 To do that, we're going to need `netcat`. In one of your terminal windows run the following command (substituting the port for whatever you like):
 
@@ -51,7 +59,7 @@ OK, confession time. I stopped doing this for ages because I got consumed by Uni
 
 Anyway, back to the challenges!
 
-Time for some `cron`! :D (get it? cos cron is a time based thing? OK, I'll just be over here giggling) Terrible jokes aside, we're being asked to check out a scheduled task that's running on this machine using the `cron` application. 
+Time for some `cron`! :D (get it? cos cron is a time based thing? OK, I'll just be over here giggling) Terrible jokes aside, we're being asked to check out a scheduled task that's running on this machine using the `cron` application.
 
 To do this we're only going to need to enlist the help of our two trustiest tools, `ls` and `cat`.
 
@@ -68,12 +76,12 @@ Got it?
 Awesome, let's crack on! We're close to the finish line, not much left to do!
 
 ## Level 22
+
 Woop! We get to actually read some code! (I like code)
 
 Following on from the last challenge, we've got another `cron` job on our hands (and it doesn't take a genius to note that there was one more file in the `/etc/cron.d/` folder once we're done with this one). If we just repeat the process from last time (i.e. cat out the contents of the `cron` command) we're given something rather interesting.
 
-
-```
+```bash
 #!/bin/bash
 
 myname=$(whoami)
@@ -120,7 +128,7 @@ Duly noted.
 
 Awesome we get to write our own scripts now! So let's have a look and see exactly what we have to do here. Log into the machine using the password from the last level, and lets take a look at the script in the `cron.d` folder.
 
-```
+```bash
 #!/bin/bash
 
 myname=$(whoami)
@@ -131,16 +139,16 @@ for i in * .*;
 do
     if [ "$i" != "." -a "$i" != ".." ];
     then
-	echo "Handling $i"
-	timeout -s 9 60 ./$i
-	rm -f ./$i
+    echo "Handling $i"
+    timeout -s 9 60 ./$i
+    rm -f ./$i
     fi
 done
 ```
 
-Huh, so it looks like this thing is moving to a directory called `bandit24` then executing everything in that folder... OK, so lets see if we can get something into that folder first, before we start with anything else. 
+Huh, so it looks like this thing is moving to a directory called `bandit24` then executing everything in that folder... OK, so lets see if we can get something into that folder first, before we start with anything else.
 
-Head over to `/var/spool` and run an `ls -l` command, let's take a look at those file permissions. 
+Head over to `/var/spool` and run an `ls -l` command, let's take a look at those file permissions.
 
 `drwx-wx--- 3 bandit24 bandit23 4096 Feb 27 15:47 bandit24`
 
@@ -148,7 +156,7 @@ OK, that's, not what you'd normally see... It seems we have write access to the 
 
 Well, write access is good, and we can just write the script locally and copy pasta it into the terminal, so we can deal with the "deletion" part pretty easily. OK, let's get scripting!
 
-```
+```bash
 #!/bin/bash
 
 cat /etc/bandit_pass/bandit24 > /tmp/bandit24pass
@@ -161,14 +169,11 @@ NEXT!
 ## Level 24
 
 > A daemon is listening on port 30002 and will give you the password for bandit25 if given the password for bandit24 and a secret numeric 4-digit pincode. There is no way to retrieve the pincode except by going through all of the 10000 combinations, called brute-forcing.
+{: .prompt-info }
 
-[Insert evil grin here]
+OK, before we get into this, we'll just try connecting to the daemon, giving it the password, and see what it fires back at us.
 
-This one is going to be fun.
-
-OK, before we get into this, we'll just try connecting to the daemon, giving it the password, and see what it fires back at us. 
-
-```
+```bash
 bandit24@bandit:~$ nc localhost 30002
 I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
 <Password for level24>
@@ -185,7 +190,7 @@ To build our wordlist we're going to use a tool called `crunch`. `crunch` is an 
 
 That will create a list of "words" that are a minimum of 4 characters, a maximum of 4 characters, and are made up of the numbers 0-9. Which gives us the following output, lettting us know that we have the right wordlist.
 
-```
+```bash
 root@kali [15:01:12] [~/overthewire] 
 -> # crunch 4 4 0123456789 > numberlist
 Crunch will now generate the following amount of data: 50000 bytes
@@ -196,13 +201,13 @@ Crunch will now generate the following amount of data: 50000 bytes
 Crunch will now generate the following number of lines: 10000 
 ```
 
-OK, so we have our wordlist, now we need to figure out how we're going to do this... I don't know about you, but I feel a Python script coming on! 
+OK, so we have our wordlist, now we need to figure out how we're going to do this... I don't know about you, but I feel a Python script coming on!
 
 (Quickly checks that Python is available on the target system, because we haven't actually had to use it yet.. YES, awesome)
 
 Let's plan this Python script out then, otherwise we're going to be in a bit of a pickle (no pun intended). For a kick off we're going to need to read in our wordlist and then output it line by line into the daemon. So let's do that first bit first:
 
-```
+```python
 import sys
 
 with open numberlist as wordlist:
@@ -212,7 +217,7 @@ with open numberlist as wordlist:
 
 Now we need to append the password to the current level in front of the `word`
 
-```
+```python
 import sys
 
 level24 = "PasswordGoesHere"
@@ -226,7 +231,7 @@ OK, so that's the output sorted, now we need to sort out connecting to the targe
 
 An issue arises almost straight away here:
 
-```
+```python
 import socket
 
 host = "localhost"
@@ -239,21 +244,21 @@ data = sock.recv(4096)
 print data
 ```
 
-We're being prompted for input _after_ we connect, not _upon_ connection. That makes this a slightly trickier prospect than I had originally envisioned. Now we're going to have to work out how to send the data _after_ we've established a connection. 
+We're being prompted for input _after_ we connect, not _upon_ connection. That makes this a slightly trickier prospect than I had originally envisioned. Now we're going to have to work out how to send the data _after_ we've established a connection.
 
 With a binary, this could be achieved quite easily using `gdb` and `peda` to connect to the process and step through it. But in this case we're dealing with a websocket, so we're going to have to write something that can communicate with it as if we were typing into the terminal.
 
-So, after sitting and thinking about this for a little while, I decided that I should probably leave Python out of it, we've not had to use much (if any) Python during this whole thing, and they aren't just going to throw something which is arguably pretty complex in a language which (as far as they know) we've had no exposure to. So let's go back to `bash`, since we have been using that in this wargame, and it's easier to use in this context than Python. 
+So, after sitting and thinking about this for a little while, I decided that I should probably leave Python out of it, we've not had to use much (if any) Python during this whole thing, and they aren't just going to throw something which is arguably pretty complex in a language which (as far as they know) we've had no exposure to. So let's go back to `bash`, since we have been using that in this wargame, and it's easier to use in this context than Python.
 
 OK then, how do we do this in `bash`?
 
-Well, luckily, since we're using `bash` we can just use the `|` (*pipe*) operator to send input around. So the first part of our script is pretty simple. 
+Well, luckily, since we're using `bash` we can just use the `|` (_pipe_) operator to send input around. So the first part of our script is pretty simple.
 
 `echo $password $number | nc localhost 30002`
 
 We can give that a try right away, to the BashMobile:
 
-```
+```bash
 pass="PasswordGoesHere"
 number="6969"
 
@@ -264,11 +269,11 @@ As you can see, we got the passcode wrong (and if you just copied and pasted you
 
 `echo $password $number | nc localhost 30002 | grep Wrong >/dev/null`
 
-That last part will just look for the error message and dump it into the blackhole where we don't have to care about it anymore. 
+That last part will just look for the error message and dump it into the blackhole where we don't have to care about it anymore.
 
 OK, cool so we can talk to the process, and we can get a response back. So let's turn this thing into a loop!
 
-```
+```bash
 #!/bin/bash
 
 pass="PasswordGoesHere"
@@ -287,7 +292,7 @@ do {
 done
 ```
 
-The astute amongst you will note that I decided to run the counter backwards. That's because I feel like i know how the minds of these CTF creators works, and they'll probably put it near the end somewhere. 
+The astute amongst you will note that I decided to run the counter backwards. That's because I feel like i know how the minds of these CTF creators works, and they'll probably put it near the end somewhere.
 
 To do the search from the bottom you'd do something like:
 
@@ -303,15 +308,15 @@ OK, so it finally completed, bloody thing kept crashing. And my initial guess th
 
 So, the penultimate challenge. And it's an interesting one.
 
-We're told to log in to Level 25 as normal, but then as soon as we get in (and run the obligatory `ls -la`) we can see that there is an ssh key, just laying around in the ~/home directory. 
+We're told to log in to Level 25 as normal, but then as soon as we get in (and run the obligatory `ls -la`) we can see that there is an ssh key, just laying around in the ~/home directory.
 
 Naturally the first thing we're going to do is try to use it in the normal manner:
 
-`ssh -i bandit26.sshkey bandit26@localhost -v` 
+`ssh -i bandit26.sshkey bandit26@localhost -v`
 
 (we add the `-v` flag because we're expecting something odd to happen with this connection)
 
-And we're kicked off. As soon as we establish a connection our session is terminated and we're kicked back to Level 25's command prompt. 
+And we're kicked off. As soon as we establish a connection our session is terminated and we're kicked back to Level 25's command prompt.
 
 To get around this we've got to first figure out what the hell is going on.
 
@@ -321,11 +326,11 @@ Outputs the following:
 
 `bandit26:x:11026:11026:bandit level 26:/home/bandit26:/usr/bin/showtext`
 
-So it looks like we're using `showtext` instead of a normal shell, OK, cool, what the hell is `showtext`? 
+So it looks like we're using `showtext` instead of a normal shell, OK, cool, what the hell is `showtext`?
 
 `cat /usr/bin/showtext`
 
-```
+```bash
 #!/bin/sh
 
 export TERM=linux
@@ -336,7 +341,7 @@ exit 0
 
 OK, so it looks like instead of spawning us a shell this `showtext` thing is using the `more` command on a text file then calling an `exit 0` (terminate).
 
-Can we just read that file? 
+Can we just read that file?
 
 `cat /homebandit26/text.txt`
 
@@ -346,7 +351,7 @@ It also looks like there is a README.txt file in that same folder, which we shou
 
 `ls -la /home/bandit26`
 
-```
+```bash
 total 32
 drwxr-xr-x  3 root     root     4096 Dec 28 14:34 .
 drwxr-xr-x 29 root     root     4096 Dec 28 14:34 ..
@@ -358,15 +363,13 @@ drwxr-xr-x  2 root     root     4096 Dec 28 14:34 .ssh
 -rw-r-----  1 bandit26 bandit26  258 Dec 28 14:34 text.txt
 ```
 
-*le sigh*
+_le sigh_ Well, we did note that it was using the `more` command, but when we run the application it doesn't appear to actually use it... We can change that behaviour quite easily, and in an odd way.
 
-Well, we did note that it was using the `more` command, but when we run the application it doesn't appear to actually use it... We can change that behaviour quite easily, and in an odd way.
+We're going to shrink our terminal down to a really small window size.
 
-We're going to shrink our terminal down to a really small window size. 
+Doing this will force `more` to think that it needs to spool more text onto the page. Which gets us our _in_
 
-Doing this will force `more` to think that it needs to spool more text onto the page. Which gets us our *in*
-
-`more` uses `vim`-like syntax. So, when we get the `more` command to fire off all we need to do is hit `v` and we're in `vim` mode. 
+`more` uses `vim`-like syntax. So, when we get the `more` command to fire off all we need to do is hit `v` and we're in `vim` mode.
 
 From there we just need to poke around and see what we can use to break back into a proper terminal.
 
@@ -388,9 +391,9 @@ Now we just need to run the trusty Python command to spawn us a shell and we're 
 
 `:python3 import pty; pty.spawn("/bin/bash")`
 
-Bish, Bash, Bosh! We have a full shell, we could `cat` the password to the next level (if it existed), and we can now read that README file, which informs us of our obvious victory :) 
+Bish, Bash, Bosh! We have a full shell, we could `cat` the password to the next level (if it existed), and we can now read that README file, which informs us of our obvious victory :)
 
-```
+```bash
 Congratulations on solving the last level of this game!
 
 At this moment, there are no more levels to play in this game. However, we are constantly working
@@ -400,7 +403,6 @@ In the meantime, you could play some of our other wargames.
 
 If you have an idea for an awesome new level, please let us know!
 ```
-
 
 ## Summary
 

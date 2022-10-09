@@ -1267,5 +1267,3 @@ Unfortunately for us, all of the queries are wrapped in this way. :sadface:
 Basic injections don't give us anything of note. (although interestingly enough we can create a user that is a blank array... `username[]=`... which is somewhat interesting to say the least) And we can read in the sauce that the database is blitzed every 5 minutes, so we can't expect any persistence.
 
 > Edit: coming back to this after a while away... I have literally no idea what is going on here anymore...
-
-
