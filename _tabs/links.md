@@ -29,4 +29,8 @@ A collection of links to useful or just plain awesome sites I either use regular
 - [flAWS - Deliberately Vulnerable AWS CTF](https://flaws.cloud)
 - [flAWS 2.0](https://flaws2.cloud)
 
+## Windows
+
+- [Potato Based Privilege Escalation](https://jlajara.gitlab.io/Potatoes_Windows_Privesc)
+
 
