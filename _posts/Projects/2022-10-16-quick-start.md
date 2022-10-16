@@ -3,7 +3,7 @@ layout: post
 title: "Projects: QuickStart.sh"
 date: 2022-10-16 18:22 +0100
 tags: projects debian ubuntu bash
-categories: [Projects]
+categories: [Projects, Automation]
 published: true
 ---
 
