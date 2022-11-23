@@ -1,9 +1,9 @@
 ---
 title: "Blog: The Beauty of Diffie-Hellman"
-date: 2019-04-07 23:22 +0100
+date: 2022-23-11 23:22 +0100
 category: Cryptography
 tags: cryptography encryption mathematics
-published: false
+published: true
 ---
 
 I've never been the greatest mathematician, as a kid I hated the subject with a passion and it's only as I've gotten older I've come to appreciate how useful mathematics can be. With that in mind I've recently become quite interested in Cryptography and the actual maths behind the algorithms, so I sat down this afternoon and decided to try and get a better understanding of how the Diffie-Hellman key exchange works.
@@ -54,3 +54,5 @@ Without knowing what the initial value, plus the additional value added by each 
 {: .prompt-info }
 
 The beauty of this algorithm is in it's simplicity. A and B can broadcast their additional values in the clear, and since they both know the original value used it is a simple matter of performing the calculation to work out the shared key. Attacker C having intercepted the additional values in the clear won't know this initial value, and thus will be forced to perform brute force attacks to work out every possible combination to produce the shared key. A feat which becomes increasingly difficult as the number of digits used to create the key grows.
+
+/MB
