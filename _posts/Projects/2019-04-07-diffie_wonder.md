@@ -1,6 +1,6 @@
 ---
 title: "Blog: The Beauty of Diffie-Hellman"
-date: 2022-23-11 23:22 +0100
+date: 2022-11-23 23:22 +0100
 category: Cryptography
 tags: cryptography encryption mathematics
 published: true
