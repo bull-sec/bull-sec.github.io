@@ -1,4 +1,11 @@
-# ICACLS
+---
+layout: post
+title: "Cheatsheets: ICACLs 101"
+date: 2023-01-15 23:32 +0100
+tags: pentesting windows cheatsheet
+categories: [Cheatsheets]
+published: true
+---
 
 > Understanding Windows permissions
 
